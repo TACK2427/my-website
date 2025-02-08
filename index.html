@@ -15,8 +15,8 @@
     
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
             color: white;
             text-align: center;
             margin: 0;
@@ -26,30 +26,53 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            overflow: hidden;
+            position: relative;
         }
         h1 {
-            font-size: 2.5em;
+            font-size: 3em;
+            font-weight: bold;
+            text-transform: uppercase;
             margin-bottom: 20px;
+            animation: fadeIn 1.5s ease-in-out;
         }
         .buttons {
             display: flex;
-            gap: 15px;
+            gap: 20px;
+            margin-top: 20px;
         }
         .btn {
-            background: #0f3460;
+            background: rgba(255, 255, 255, 0.2);
             color: white;
             padding: 15px 30px;
             text-decoration: none;
             font-size: 1.2em;
-            border-radius: 8px;
+            border-radius: 10px;
             transition: 0.3s;
+            border: 2px solid white;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
         .btn:hover {
-            background: #e94560;
+            background: rgba(233, 69, 96, 0.8);
+            transform: scale(1.1);
+            border-color: #e94560;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .background-effect {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0) 80%);
+            z-index: -1;
         }
     </style>
 </head>
 <body>
+    <div class="background-effect"></div>
     <h1>TACK2427のページ</h1>
     <div class="buttons">
         <a href="https://www.tackserverhelpcenter.f5.si" class="btn">ヘルプセンター</a>
