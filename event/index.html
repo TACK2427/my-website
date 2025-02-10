@@ -64,6 +64,7 @@
                 
                 const ongoingEventContainer = document.getElementById('current-event');
                 const futureEventsContainer = document.getElementById('future-events');
+                const ongoingSection = document.getElementById('ongoing-events');
                 ongoingEventContainer.innerHTML = '';
                 futureEventsContainer.innerHTML = '';
                 
@@ -87,9 +88,8 @@
                     }
                 });
                 
-                if (!hasOngoingEvent) {
-                    document.getElementById('ongoing-events').style.display = 'none';
-                }
+                // 進行中のイベントがなければ非表示にする
+                ongoingSection.style.display = hasOngoingEvent ? 'block' : 'none';
             } catch (error) {
                 console.error('イベントの読み込みに失敗しました:', error);
             }
