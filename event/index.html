@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TACK2427のイベント</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0d0d0d;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        .event-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a1a;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+        .event {
+            padding: 15px;
+            border-bottom: 1px solid gray;
+        }
+        .event:last-child {
+            border-bottom: none;
+        }
+        .status {
+            font-weight: bold;
+            color: #e94560;
+        }
+        .section-title {
+            font-size: 1.8em;
+            margin-top: 20px;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>TACK2427のイベント</h1>
+    
+    <div id="ongoing-events">
+        <h2 class="section-title">進行中のイベント</h2>
+        <div class="event-container" id="current-event"></div>
+    </div>
+    
+    <div id="upcoming-events">
+        <h2 class="section-title">今後の予定</h2>
+        <div class="event-container" id="future-events"></div>
+    </div>
+    
+    <script>
+        async function loadEvents() {
+            try {
+                const response = await fetch('events.json');
+                const events = await response.json();
+                
+                const ongoingEventContainer = document.getElementById('current-event');
+                const futureEventsContainer = document.getElementById('future-events');
+                ongoingEventContainer.innerHTML = '';
+                futureEventsContainer.innerHTML = '';
+                
+                let hasOngoingEvent = false;
+                events.forEach(event => {
+                    const eventElement = document.createElement('div');
+                    eventElement.classList.add('event');
+                    eventElement.innerHTML = `
+                        <h2>${event.title}</h2>
+                        <p class="status">${event.status}</p>
+                        <p>開催日時: ${event.date}</p>
+                        <p>場所: ${event.location}</p>
+                        <p>${event.description}</p>
+                    `;
+                    
+                    if (event.status === '進行中！') {
+                        ongoingEventContainer.appendChild(eventElement);
+                        hasOngoingEvent = true;
+                    } else {
+                        futureEventsContainer.appendChild(eventElement);
+                    }
+                });
+                
+                if (!hasOngoingEvent) {
+                    document.getElementById('ongoing-events').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('イベントの読み込みに失敗しました:', error);
+            }
+        }
+        
+        loadEvents();
+        setInterval(loadEvents, 60000); // 1分ごとに更新
+    </script>
+</body>
+</html>
