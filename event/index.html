@@ -69,7 +69,14 @@
                 futureEventsContainer.innerHTML = '';
                 
                 let hasOngoingEvent = false;
+                const now = new Date();
+                
                 events.forEach(event => {
+                    const eventStart = new Date(event.date);
+                    if (eventStart < now) {
+                        return; // 過去のイベントは表示しない
+                    }
+                    
                     const eventElement = document.createElement('div');
                     eventElement.classList.add('event');
                     eventElement.innerHTML = `
