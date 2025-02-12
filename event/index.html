@@ -54,6 +54,49 @@
             top: 0;
             width: 100%;
             z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+        }
+        .header img {
+            height: 40px;
+        }
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .menu {
+            display: flex;
+            gap: 15px;
+        }
+        .menu a {
+            color: gray;
+            text-decoration: none;
+        }
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 10px;
+            background: #181818;
+            border: 1px solid gray;
+            padding: 10px;
+            flex-direction: column;
+        }
+        .mobile-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 0;
+        }
+        @media (max-width: 768px) {
+            .menu {
+                display: none;
+            }
+            .menu-toggle {
+                display: block;
+            }
         }
         .footer {
             background: #181818;
@@ -69,7 +112,20 @@
 </head>
 <body>
     <div class="header">
-        TACK2427のイベントページ
+        <img src="https://www.tack2427.f5.si/icon.jpeg" alt="Logo">
+        <nav class="menu">
+            <!-- ここにリンクを追加 -->
+            <a href="https://www.tack2427.f5.si/discord/">DIscordserver</a>
+            <a href="#">リンク2</a>
+            <a href="#">リンク3</a>
+        </nav>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <div class="mobile-menu" id="mobileMenu">
+            <!-- ここにリンクを追加 -->
+            <a href="https://www.tack2427.f5.si/discord/">Discordさーばー</a>
+            <a href="#">リンク2</a>
+            <a href="#">リンク3</a>
+        </div>
     </div>
     
     <h1>TACK2427のサーバーのイベント情報</h1>
@@ -87,5 +143,12 @@
     <div class="footer">
         © 2024 TACK2427. All Rights Reserved.
     </div>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById("mobileMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+    </script>
 </body>
 </html>
