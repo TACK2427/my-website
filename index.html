@@ -3,16 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TACK2427のページ</title>
-    
-    <!-- OGP設定（プレビュー用） -->
-    <meta property="og:title" content="TACK2427のページ">
-    <meta property="og:description" content="TACK2427の公式サイトへようこそ！">
-    <meta property="og:image" content="https://tack2427.f5.si/banner.png">
-    <meta property="og:url" content="https://tack2427.f5.si">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    
+    <title>TACK2427のサーバーのイベント情報</title>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -20,83 +11,144 @@
             color: white;
             text-align: center;
             margin: 0;
-            padding: 0;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            justify-content: start;
-            align-items: center;
             min-height: 100vh;
-            overflow-y: auto;
-            position: relative;
         }
         h1 {
-            font-size: 3em;
-            font-weight: 600;
-            text-transform: none;
-            letter-spacing: 2px;
+            font-size: 2.5em;
             margin-bottom: 20px;
-            animation: fadeIn 1.5s ease-in-out;
         }
-        p {
-            font-size: 1.2em;
-            margin-top: 10px;
-            margin-bottom: 20px;
-            animation: fadeIn 1.5s ease-in-out;
+        .event-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a1a;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
         }
-        .buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+        .event {
+            padding: 15px;
+            border-bottom: 1px solid gray;
+        }
+        .event:last-child {
+            border-bottom: none;
+        }
+        .status {
+            font-weight: bold;
+            color: #e94560;
+        }
+        .section-title {
+            font-size: 1.8em;
             margin-top: 20px;
-            margin-bottom: 20px;
-            animation: fadeIn 1.5s ease-in-out;
+            text-decoration: underline;
         }
-        .btn {
-            background: none;
-            color: white;
-            padding: 12px 30px;
+        .header {
+            background: #181818;
+            color: gray;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.9em;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+        }
+        .header img {
+            height: 40px;
+        }
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .menu {
+            display: flex;
+            gap: 15px;
+        }
+        .menu a {
+            color: gray;
             text-decoration: none;
-            font-size: 1.2em;
-            border: 2px solid white;
-            border-radius: 5px;
-            transition: 0.3s;
-            font-weight: 500;
-            text-transform: none;
         }
-        .btn:hover {
-            background: white;
-            color: black;
-            transform: scale(1.05);
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 60px;
+            right: 10px;
+            background: #181818;
+            border: 1px solid gray;
+            padding: 10px;
+            flex-direction: column;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
+        .mobile-menu a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 0;
         }
-        .logo {
-            width: 130px;
-            height: auto;
-            margin-bottom: 20px;
-            animation: fadeIn 1.5s ease-in-out;
+        @media (max-width: 768px) {
+            .menu {
+                display: none;
+            }
+            .menu-toggle {
+                display: block;
+            }
         }
         .footer {
-            margin-top: 5px;
-            margin-bottom: 5px;
-            font-size: 0.8em;
+            background: #181818;
             color: gray;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.9em;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
         }
     </style>
 </head>
 <body>
-    <div style="margin-top: 20px;"></div>
-    <p>↓こいつがTACK2427</p>
-    <img src="https://www.tack2427.f5.si/icon.jpeg" alt="Logo" class="logo">
-    <h1>TACK2427のページ</h1>
-    <p>コミュニティを大切にしています</p>
-    <div class="buttons">
-        <a href="https://www.tackserverhelpcenter.f5.si" class="btn">ヘルプセンター</a>
-        <a href="https://discord.gg/qwJdBZGdNg" class="btn">Discord</a>
-        <a href="https://lin.ee/xCnOanF" class="btn">LINE</a>
+    <div class="header">
+        <img src="https://www.tack2427.f5.si/icon.jpeg" alt="Logo">
+        <nav class="menu">
+            <!-- ここにリンクを追加 -->
+            <a href="https://www.tack2427.f5.si/discord/">Discord</a>
+            <a href="#">リンク2</a>
+            <a href="#">リンク3</a>
+        </nav>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <div class="mobile-menu" id="mobileMenu">
+            <!-- ここにリンクを追加 -->
+            <a href="https://tack2427.f5.si/discord/">Discordニダ</a>
+            <a href="#">リンク2</a>
+            <a href="#">リンク3</a>
+        </div>
     </div>
-    <div class="footer">コード：chatGPT</div>
+    
+    <h1>TACK2427のサーバーのイベント情報</h1>
+    
+    <div id="ongoing-events">
+        <h2 class="section-title">進行中のイベント</h2>
+        <div class="event-container" id="current-event"></div>
+    </div>
+    
+    <div id="upcoming-events">
+        <h2 class="section-title">今後の予定</h2>
+        <div class="event-container" id="future-events"></div>
+    </div>
+
+    <div class="footer">
+        © 2024 TACK2427. All Rights Reserved.
+    </div>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById("mobileMenu");
+            menu.style.display = menu.style.display === "block" ? "none" : "block";
+        }
+    </script>
 </body>
 </html>
