@@ -12,6 +12,9 @@
             text-align: center;
             margin: 0;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
         h1 {
             font-size: 2.5em;
@@ -41,9 +44,34 @@
             margin-top: 20px;
             text-decoration: underline;
         }
+        .header {
+            background: #181818;
+            color: gray;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.9em;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .footer {
+            background: #181818;
+            color: gray;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.9em;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
+    <div class="header">
+        TACK2427のイベントページ
+    </div>
+    
     <h1>TACK2427のサーバーのイベント情報</h1>
     
     <div id="ongoing-events">
@@ -55,61 +83,9 @@
         <h2 class="section-title">今後の予定</h2>
         <div class="event-container" id="future-events"></div>
     </div>
-    
-    <script>
-        async function loadEvents() {
-            try {
-                const response = await fetch('events.json');
-                const events = await response.json();
-                
-                const ongoingEventContainer = document.getElementById('current-event');
-                const futureEventsContainer = document.getElementById('future-events');
-                const ongoingSection = document.getElementById('ongoing-events');
-                ongoingEventContainer.innerHTML = '';
-                futureEventsContainer.innerHTML = '';
-                
-                let hasOngoingEvent = false;
-                const now = new Date();
-                
-                events.forEach(event => {
-                    const eventStart = new Date(event.date);
-                    const eventDateJST = new Intl.DateTimeFormat('ja-JP', {
-                        year: 'numeric', month: '2-digit', day: '2-digit',
-                        hour: '2-digit', minute: '2-digit', second: '2-digit',
-                        timeZone: 'Asia/Tokyo'
-                    }).format(eventStart);
-                    
-                    if (eventStart < now) {
-                        return; // 過去のイベントは表示しない
-                    }
-                    
-                    const eventElement = document.createElement('div');
-                    eventElement.classList.add('event');
-                    eventElement.innerHTML = `
-                        <h2>${event.title}</h2>
-                        <p class="status">${event.status}</p>
-                        <p>開催日時: ${eventDateJST}</p>
-                        <p>場所: ${event.location}</p>
-                        <p>${event.description}</p>
-                    `;
-                    
-                    if (event.status === '進行中！') {
-                        ongoingEventContainer.appendChild(eventElement);
-                        hasOngoingEvent = true;
-                    } else {
-                        futureEventsContainer.appendChild(eventElement); // 今後の予定を表示
-                    }
-                });
-                
-                // 進行中のイベントがなければ非表示にする
-                ongoingSection.style.display = hasOngoingEvent ? 'block' : 'none';
-            } catch (error) {
-                console.error('イベントの読み込みに失敗しました:', error);
-            }
-        }
-        
-        loadEvents();
-        setInterval(loadEvents, 60000); // 1分ごとに更新
-    </script>
+
+    <div class="footer">
+        © 2024 TACK2427. All Rights Reserved.
+    </div>
 </body>
 </html>
