@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-        <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://www.tack2427.f5.si/kansin/icon.png" type="image/png">
     <title>関神鉄道へ転送中...</title>
     
     <!-- OGP設定（プレビュー用） -->
-    <meta property="og:title" content="関神鉄道のDicordサーバー">
+    <meta property="og:title" content="関神鉄道のDiscordサーバー">
     <meta property="og:description" content="このリンクは関神鉄道の招待リンクになります。">
     <meta property="og:image" content="https://www.tack2427.f5.si/kansin/icon.png">
     <meta property="og:url" content="https://tack2427.f5.si">
@@ -21,34 +21,83 @@
     </script>
 
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
-            background: url('https://www.tack2427.f5.si/kansin/icon.png') no-repeat center center fixed;
-            background-size: cover;
+            background: linear-gradient(45deg, #00c6ff, #0072ff); /* 鮮やかな青のグラデーション */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
+            position: relative;
+            animation: backgroundMotion 10s infinite alternate;
         }
 
         .content {
-            background: rgba(255, 255, 255, 0.8); /* 半透明の白背景 */
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* 浮いている感じの影 */
+            background: rgba(255, 255, 255, 0.9); /* 半透明の白背景 */
+            padding: 30px 50px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3); /* 大きめの浮き上がり効果 */
             text-align: center;
-            max-width: 400px;
+            max-width: 500px;
+            width: 90%;
+            animation: scaleUp 1s ease-out;
+            backdrop-filter: blur(10px); /* 背景をぼかして未来感アップ */
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        p {
+            color: #333;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            font-weight: 500;
         }
 
         a {
-            color: #1e90ff;
+            color: #00c6ff;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        a:hover {
+            color: #ff4500; /* ホバー時にオレンジ色に変化 */
+            transform: translateY(-5px); /* 少し上に動かす */
+        }
+
+        @keyframes scaleUp {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes backgroundMotion {
+            0% { background: linear-gradient(45deg, #00c6ff, #0072ff); }
+            50% { background: linear-gradient(45deg, #00ff95, #00d4ff); }
+            100% { background: linear-gradient(45deg, #ff00cc, #ff0077); }
         }
     </style>
 </head>
 <body>
     <div class="content">
-        <p>Discordに移動します。</p>
+        <h1>関神鉄道へようこそ</h1>
+        <p>3秒後にDiscordへ転送します...</p>
         <p>リダイレクトされない場合は <a href="https://discord.gg/4fvBUvFanx">こちら</a> をクリックしてください。</p>
     </div>
 </body>
