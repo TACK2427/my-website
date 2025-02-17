@@ -17,18 +17,15 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            background: #0d0d0d;
-            color: white;
-            text-align: center;
-            margin: 0;
-            padding: 0;
+            background: linear-gradient(45deg, #00c6ff, #0072ff); /* 鮮やかな青のグラデーション */
             display: flex;
-            flex-direction: column;
-            justify-content: start;
+            justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            overflow-y: auto;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
             position: relative;
+            animation: backgroundMotion 10s infinite alternate;
         }
         h1 {
             font-size: 3em;
