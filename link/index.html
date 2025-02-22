@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="icon" href="https://www.tack2427.f5.si/icon.jpeg" type="image/jpeg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>リンク集：⚠ポップアップを許可してください。</title>
+    <title>リンク集</title>
 
     <script>
         window.onload = function() {
@@ -44,9 +44,13 @@
                 if (openAllLinks()) {
                     setStatus("リンク集：✅正常に開けました。");
                     document.getElementById("message").innerHTML = "<p>すべてのリンクが開きました！</p>";
+                    document.getElementById("openButton").style.display = "none"; // ボタン非表示
                 } else {
                     setStatus("リンク集：⚠ポップアップを許可してください。");
-                    document.getElementById("message").innerHTML = `ポップアップがブロックされています。許可してから再試行してください。`;
+                    document.getElementById("message").innerHTML = `
+                        <p>ポップアップがブロックされています。許可してから再試行してください。</p>
+                        <p><button id="openButton" onclick="retryOpening()">リンクを開く (${links.length}個)</button></p>
+                    `;
                 }
             }
 
