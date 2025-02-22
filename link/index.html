@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="icon" href="https://www.tack2427.f5.si/icon.jpeg" type="image/jpeg">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>リンク集：⚠ポップアップを許可してください。</title>
+    <title>リンク集</title>
 
     <script>
         window.onload = function() {
@@ -58,14 +58,14 @@
                     if (failedLinks.length === links.length) {
                         document.getElementById("result").innerHTML = `
                             <p>ポップアップがブロックされています。許可してから再試行してください。</p>
-                            <p>以下のリンクを開くことができませんでした (<span style="font-size: small;">${failedLinks.length}</span>個)：</p>
+                            <p>以下のリンクを開くことができませんでした (<span style="font-size: small;">${failedLinks.length}</span>個)</p>
                             <p style="font-size: smaller;">${failedLinks.map(link => `<a href="${link}" target="_blank">${link}</a><br>`).join('')}</p>
                         `;
                     } else {
                         document.getElementById("result").innerHTML = `
-                            <p>以下のリンクを開きました (<span style="font-size: small;">${openedTabs.filter(tab => tab !== null).length}</span>個)：</p>
+                            <p>以下のリンクを開きました (<span style="font-size: small;">${openedTabs.filter(tab => tab !== null).length}</span>個)</p>
                             <p style="font-size: smaller;">${openedTabs.filter(tab => tab !== null).map(tab => `<a href="${tab.location.href}" target="_blank">${tab.location.href}</a><br>`).join('')}</p>
-                            <p>以下のリンクを開くことができませんでした (<span style="font-size: small;">${failedLinks.length}</span>個)：</p>
+                            <p>以下のリンクを開くことができませんでした (<span style="font-size: small;">${failedLinks.length}</span>個)</p>
                             <p style="font-size: smaller;">${failedLinks.map(link => `<a href="${link}" target="_blank">${link}</a><br>`).join('')}</p>
                         `;
                     }
