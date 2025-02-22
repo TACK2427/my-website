@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="https://www.tack2427.f5.si/icon.jpeg" type="image/jpeg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>リンク集：⚠ポップアップを許可してください。</title>
+
+    <script>
+        window.onload = function() {
+            const links = [
+                "https://www.youtube.com/@tack2427",
+                "https://www.youtube.com/@irukakun859",
+                "https://www.youtube.com/@tackruka",
+                "https://twitter.com/tack2427",
+                "https://twitter.com/irukakun859",
+                "https://twitter.com/tackruka",
+                "https://www.instagram.com/tack2427",
+                "https://www.instagram.com/irukakun859",
+                "https://www.instagram.com/tackruka"
+            ];
+
+            let openedTabs = [];
+            let allOpened = false;
+
+            function setStatus(title) {
+                document.title = title;
+            }
+
+            function openAllLinks() {
+                setStatus("リンク集：リンクを開いています...");
+
+                openedTabs = links.map(link => {
+                    let newTab = window.open(link, '_blank');
+                    return newTab;
+                });
+
+                // すべてのタブが開けたか確認
+                allOpened = openedTabs.every(tab => tab !== null);
+                return allOpened;
+            }
+
+            function checkPopupPermission() {
+                if (openAllLinks()) {
+                    setStatus("リンク集：✅正常に開けました。");
+                    document.getElementById("message").innerHTML = "<p>すべてのリンクが開きました！</p>";
+                } else {
+                    setStatus("リンク集：⚠ポップアップを許可してください。");
+                    document.getElementById("message").innerHTML = `ポップアップがブロックされています。許可してから再試行してください。`;
+                }
+            }
+
+            function retryOpening() {
+                document.getElementById("message").innerHTML = "<p>リンクを開いています...</p>";
+                setTimeout(checkPopupPermission, 1000); // 1秒後に再試行
+            }
+
+            checkPopupPermission();
+        };
+    </script>
+</head>
+<body>
+    <div id="message">
+        <p>リンクを開いています...</p>
+    </div>
+</body>
+</html>
