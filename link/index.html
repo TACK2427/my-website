@@ -21,53 +21,58 @@
             ];
 
             let openedTabs = [];
-            let successfulLinks = [];
             let failedLinks = [];
+            let allOpened = false;
 
             function setStatus(title) {
                 document.title = title;
             }
 
             function openAllLinks() {
-                setStatus("リンク集：リンクを開いています...");
-
                 openedTabs = links.map(link => {
                     let newTab = window.open(link, '_blank');
-                    if (newTab === null) {
-                        failedLinks.push(link);
+                    if (newTab) {
+                        return newTab;
                     } else {
-                        successfulLinks.push(link);
+                        failedLinks.push(link);
+                        return null;
                     }
-                    return newTab;
                 });
 
-                displayLinks();
+                // すべてのタブが開けたか確認
+                allOpened = openedTabs.every(tab => tab !== null);
+                return allOpened;
             }
 
-            function displayLinks() {
-                const messageElement = document.getElementById("message");
+            function checkPopupPermission() {
+                document.getElementById("message").style.display = "none";
 
-                if (successfulLinks.length > 0) {
-                    messageElement.innerHTML += `
-                        <p>すべてのリンクを開くことに成功しました (${successfulLinks.length}個)</p>
-                        <ul>
-                            ${successfulLinks.map(link => `<li><a href="${link}" target="_blank">${link}</a></li>`).join('')}
-                        </ul>
+                if (openAllLinks()) {
+                    setStatus("リンク集：✅正常に開けました。");
+                    document.getElementById("result").innerHTML = `
+                        <p>すべてのリンクを開くことに成功しました！</p>
+                        <p style="font-size: smaller;">${links.join('<br>')}</p>
                     `;
-                }
-
-                if (failedLinks.length > 0) {
-                    messageElement.innerHTML += `
-                        <p>以下のリンクを開くことを失敗しました (${failedLinks.length}個)</p>
-                        <ul>
-                            ${failedLinks.map(link => `<li><a href="${link}" target="_blank">${link}</a></li>`).join('')}
-                        </ul>
-                    `;
+                } else {
+                    setStatus("リンク集：⚠ポップアップを許可してください。");
+                    if (failedLinks.length === links.length) {
+                        document.getElementById("result").innerHTML = `
+                            <p>ポップアップがブロックされています。許可してから再試行してください。</p>
+                            <p>以下のリンクを開くことができませんでした：</p>
+                            <p style="font-size: smaller;">${failedLinks.join('<br>')}</p>
+                        `;
+                    } else {
+                        document.getElementById("result").innerHTML = `
+                            <p>以下のリンクを開きました：</p>
+                            <p style="font-size: smaller;">${openedTabs.filter(tab => tab !== null).map(tab => tab.location.href).join('<br>')}</p>
+                            <p>以下のリンクを開くことができませんでした：</p>
+                            <p style="font-size: smaller;">${failedLinks.join('<br>')}</p>
+                        `;
+                    }
                 }
             }
 
-            // ページがロードされたときにリンクを開く
-            openAllLinks();
+            checkPopupPermission();
         };
     </script>
 </head>
@@ -75,5 +80,6 @@
     <div id="message">
         <p>リンクを開いています...</p>
     </div>
+    <div id="result"></div>
 </body>
 </html>
