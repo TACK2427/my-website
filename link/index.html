@@ -21,7 +21,8 @@
             ];
 
             let openedTabs = [];
-            let allOpened = false;
+            let successfulLinks = [];
+            let failedLinks = [];
 
             function setStatus(title) {
                 document.title = title;
@@ -32,34 +33,41 @@
 
                 openedTabs = links.map(link => {
                     let newTab = window.open(link, '_blank');
+                    if (newTab === null) {
+                        failedLinks.push(link);
+                    } else {
+                        successfulLinks.push(link);
+                    }
                     return newTab;
                 });
 
-                // すべてのタブが開けたか確認
-                allOpened = openedTabs.every(tab => tab !== null);
-                return allOpened;
+                displayLinks();
             }
 
-            function checkPopupPermission() {
-                if (openAllLinks()) {
-                    setStatus("リンク集：✅正常に開けました。");
-                    document.getElementById("message").innerHTML = "<p>すべてのリンクが開きました！</p>";
-                    document.getElementById("openButton").style.display = "none"; // ボタン非表示
-                } else {
-                    setStatus("リンク集：⚠ポップアップを許可してください。");
-                    document.getElementById("message").innerHTML = `
-                        <p>ポップアップがブロックされています。許可してから再試行してください。</p>
-                        <p><button id="openButton" onclick="retryOpening()">リンクを開く (${links.length}個)</button></p>
+            function displayLinks() {
+                const messageElement = document.getElementById("message");
+
+                if (successfulLinks.length > 0) {
+                    messageElement.innerHTML += `
+                        <p>すべてのリンクを開くことに成功しました (${successfulLinks.length}個)</p>
+                        <ul>
+                            ${successfulLinks.map(link => `<li><a href="${link}" target="_blank">${link}</a></li>`).join('')}
+                        </ul>
+                    `;
+                }
+
+                if (failedLinks.length > 0) {
+                    messageElement.innerHTML += `
+                        <p>以下のリンクを開くことを失敗しました (${failedLinks.length}個)</p>
+                        <ul>
+                            ${failedLinks.map(link => `<li><a href="${link}" target="_blank">${link}</a></li>`).join('')}
+                        </ul>
                     `;
                 }
             }
 
-            function retryOpening() {
-                document.getElementById("message").innerHTML = "<p>リンクを開いています...</p>";
-                setTimeout(checkPopupPermission, 1000); // 1秒後に再試行
-            }
-
-            checkPopupPermission();
+            // ページがロードされたときにリンクを開く
+            openAllLinks();
         };
     </script>
 </head>
