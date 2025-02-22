@@ -51,7 +51,7 @@
                     setStatus("リンク集：✅正常に開けました。");
                     document.getElementById("result").innerHTML = `
                         <p>すべてのリンクを開くことに成功しました！ (<span style="font-size: small;">${openedTabs.length}</span>個)</p>
-                        <p style="font-size: smaller;">${links.map(link => `<a href="${link}" target="_blank">${link}</a><br>`).join('')}</p>
+                        <p>${links.map(link => `<a href="${link}" target="_blank">${link}</a><br>`).join('')}</p>
                     `;
                 } else {
                     setStatus("リンク集：⚠ポップアップを許可してください。");
@@ -59,14 +59,14 @@
                         document.getElementById("result").innerHTML = `
                             <p>ポップアップがブロックされています。許可してから再試行してください。</p>
                             <p>以下のリンクを開くことができませんでした (<span style="font-size: small;">${failedLinks.length}</span>個)</p>
-                            <p style="font-size: smaller;">${failedLinks.map(link => `<a href="${link}" target="_blank">${link}</a><br>`).join('')}</p>
+                            <p>${failedLinks.map(link => `<a href="${link}" target="_blank">${link}</a><br>`).join('')}</p>
                         `;
                     } else {
                         document.getElementById("result").innerHTML = `
                             <p>以下のリンクを開きました (<span style="font-size: small;">${openedTabs.filter(tab => tab !== null).length}</span>個)</p>
-                            <p style="font-size: smaller;">${openedTabs.filter(tab => tab !== null).map(tab => `<a href="${tab.location.href}" target="_blank">${tab.location.href}</a><br>`).join('')}</p>
+                            <p>${openedTabs.filter(tab => tab !== null).map(tab => `<a href="${tab.location.href}" target="_blank">${tab.location.href}</a><br>`).join('')}</p>
                             <p>以下のリンクを開くことができませんでした (<span style="font-size: small;">${failedLinks.length}</span>個)</p>
-                            <p style="font-size: smaller;">${failedLinks.map(link => `<a href="${link}" target="_blank">${link}</a><br>`).join('')}</p>
+                            <p>${failedLinks.map(link => `<a href="${link}" target="_blank">${link}</a><br>`).join('')}</p>
                         `;
                     }
                 }
