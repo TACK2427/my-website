@@ -51,6 +51,7 @@
                     setStatus("リンク集：✅正常に開けました。");
                     document.getElementById("result").innerHTML = `
                         <p>すべてのリンクを開くことに成功しました！</p>
+                        <p style="font-size: smaller;">(${openedTabs.length})</p>
                         <p style="font-size: smaller;">${links.map(link => `<a href="${link}" target="_blank">${link}</a><br>`).join('')}</p>
                     `;
                 } else {
@@ -59,13 +60,16 @@
                         document.getElementById("result").innerHTML = `
                             <p>ポップアップがブロックされています。許可してから再試行してください。</p>
                             <p>以下のリンクを開くことができませんでした：</p>
+                            <p style="font-size: smaller;">(${failedLinks.length})</p>
                             <p style="font-size: smaller;">${failedLinks.map(link => `<a href="${link}" target="_blank">${link}</a><br>`).join('')}</p>
                         `;
                     } else {
                         document.getElementById("result").innerHTML = `
                             <p>以下のリンクを開きました：</p>
+                            <p style="font-size: smaller;">(${openedTabs.filter(tab => tab !== null).length})</p>
                             <p style="font-size: smaller;">${openedTabs.filter(tab => tab !== null).map(tab => `<a href="${tab.location.href}" target="_blank">${tab.location.href}</a><br>`).join('')}</p>
                             <p>以下のリンクを開くことができませんでした：</p>
+                            <p style="font-size: smaller;">(${failedLinks.length})</p>
                             <p style="font-size: smaller;">${failedLinks.map(link => `<a href="${link}" target="_blank">${link}</a><br>`).join('')}</p>
                         `;
                     }
