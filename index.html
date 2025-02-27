@@ -29,6 +29,7 @@
             min-height: 100vh;
             overflow-y: auto;
             position: relative;
+            width: 100%;
         }
         h1 {
             font-size: 3em;
@@ -85,9 +86,64 @@
             font-size: 0.8em;
             color: gray;
         }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar .logo img {
+            height: 40px;
+        }
+        .menu-icon {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        .menu-items {
+            display: flex;
+            gap: 15px;
+        }
+        .menu-items a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            transition: background 0.3s;
+        }
+        .menu-items a:hover {
+            background: #575757;
+        }
+        @media screen and (max-width: 768px) {
+            .menu-items {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                background-color: #333;
+            }
+            .menu-items a {
+                text-align: center;
+                padding: 15px;
+                border-top: 1px solid #575757;
+            }
+            .menu-icon {
+                display: block;
+            }
     </style>
 </head>
 <body>
+    <div class="navbar">
+        <a href="/" class="logo">
+            <img src="https://www.tack2427.f5.si/Freedom_mario/icon.jpeg" alt="Logo">
+        </a>
+        <div class="menu-icon" onclick="toggleMenu()">
+            &#9776;
+        </div>
     <div style="margin-top: 20px;"></div>
     <p>↓こいつがTACK2427</p>
     <img src="https://www.tack2427.f5.si/icon.jpeg" alt="Logo" class="logo">
@@ -105,5 +161,15 @@
         <a href="https://www.tack2427.f5.si/kansin/" class="btn">関神鉄道</a>
     </div>
     <div class="footer">コード：chatGPT</div>
+    <script>
+        function toggleMenu() {
+            var menu = document.querySelector('.menu-items');
+            if (menu.style.display === 'flex') {
+                menu.style.display = 'none';
+            } else {
+                menu.style.display = 'flex';
+            }
+        }
+    </script>
 </body>
 </html>
