@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="https://www.tack2427.f5.si/kansin/icon.png" type="image/png">
+    <link rel="icon" href="http://www.google.com/s2/favicons?domain=kansin" type="image/png">
     <title>協力会社の紹介ページ</title>
     
     <!-- OGP設定（プレビュー用） -->
     <meta property="og:title" content="協力会社の紹介ページ">
     <meta property="og:description" content="協力会社の詳細情報">
-    <meta property="og:image" content="https://www.tack2427.f5.si/kansin/icon.png">
+    <meta property="og:image" content="http://www.google.com/s2/favicons?domain=kansin">
     <meta property="og:url" content="https://tack2427.f5.si">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
@@ -45,40 +45,27 @@
             margin-bottom: 20px;
             animation: fadeIn 1.5s ease-in-out;
         }
-        .buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-            margin-bottom: 20px;
+        .company {
+            margin-bottom: 30px;
             animation: fadeIn 1.5s ease-in-out;
         }
-        .btn {
-            background: none;
-            color: white;
-            padding: 12px 30px;
-            text-decoration: none;
-            font-size: 1.2em;
-            border: 2px solid white;
-            border-radius: 5px;
-            transition: 0.3s;
-            font-weight: 500;
-            text-transform: none;
+        .company img {
+            width: 32px;
+            height: 32px;
+            vertical-align: middle;
         }
-        .btn:hover {
-            background: white;
-            color: black;
-            transform: scale(1.05);
+        .company a {
+            color: white;
+            font-size: 1.2em;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+        .company a:hover {
+            text-decoration: underline;
         }
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-        .logo {
-            width: 130px;
-            height: auto;
-            margin-bottom: 20px;
-            animation: fadeIn 1.5s ease-in-out;
         }
         .footer {
             margin-top: 5px;
@@ -90,13 +77,17 @@
 </head>
 <body>
     <div style="margin-top: 20px;"></div>
-    <img src="https://www.tack2427.f5.si/kansin/icon.png" alt="Logo" class="logo">
+    <img src="http://www.google.com/s2/favicons?domain=kansin" alt="Logo" class="logo">
     <h1>協力会社</h1>
-    <p>協力会社の詳細情報をここに記載します。</p>
-    <div class="buttons">
-        <a href="https://example.com" class="btn">協力会社のサイト</a>
-        <a href="/kansin" class="btn">関神鉄道のサイト</a>
-        <a href="https://irukatrin.dolphin.f5.si/" class="btn">いるか電鉄のサイト</a>
+    <div class="company">
+        <p>関神鉄道</p>
+        <img src="http://www.google.com/s2/favicons?domain=www.tack2427.f5.si/kansin">
+        <a href="/kansin">関神鉄道のサイト</a>
+    </div>
+    <div class="company">
+        <p>いるか電鉄</p>
+        <img src="http://www.google.com/s2/favicons?domain=irukatrin.dolphin.f5.si">
+        <a href="https://irukatrin.dolphin.f5.si/">いるか電鉄のサイト</a>
     </div>
     <div class="footer">コード：chatGPT</div>
 </body>
