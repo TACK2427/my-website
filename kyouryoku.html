@@ -54,15 +54,17 @@
             box-shadow: 0 0 10px rgba(255, 165, 0, 0.8), 0 0 20px rgba(255, 69, 0, 0.8), 0 0 30px rgba(255, 165, 0, 0.8);
         }
         .company img {
-            width: 32px;
-            height: 32px;
-            vertical-align: middle;
+            width: 64px;
+            height: 64px;
+            margin-bottom: 10px;
+            animation: rotate 10s linear infinite;
         }
         .company a {
             color: white;
             font-size: 1.2em;
             text-decoration: none;
-            margin-left: 10px;
+            display: block;
+            margin-top: 10px;
         }
         .company a:hover {
             text-decoration: underline;
@@ -70,6 +72,10 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         .footer {
             margin-top: 5px;
@@ -84,13 +90,13 @@
     <img src="http://www.google.com/s2/favicons?domain=" alt="Logo" class="logo">
     <h1>協力会社</h1>
     <div class="company">
-        <p>関神鉄道</p>
         <img src="https://www.tack2427.f5.si/kansin/icon.png">
+        <p>関神鉄道</p>
         <a href="https://www.tack2427.f5.si/kansin">関神鉄道のサイト</a>
     </div>
     <div class="company">
-        <p>いるか電鉄</p>
         <img src="http://www.google.com/s2/favicons?domain=https://irukatrin.dolphin.f5.si/">
+        <p>いるか電鉄</p>
         <a href="https://irukatrin.dolphin.f5.si/">いるか電鉄のサイト</a>
     </div>
     <div class="footer">コード：chatGPT</div>
