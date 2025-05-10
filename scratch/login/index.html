@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ログイン - Scratch認証</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+    .code-box { font-size: 2em; margin: 20px; }
+    button { font-size: 1.2em; padding: 10px 20px; }
+    #result { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Scratchログイン</h1>
+  <p>以下のコードを Scratch のプロジェクトに入力してください。</p>
+
+  <div class="code-box" id="code">---</div>
+  <button id="generateBtn">コードを発行</button>
+  <br><br>
+  <button id="verifyBtn">コードを確認</button>
+
+  <div id="result"></div>
+
+  <script>
+    let currentCode = "";
+
+    function generateCode(length = 6) {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      let result = "";
+      for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+    }
+
+    document.getElementById("generateBtn").onclick = async () => {
+      currentCode = generateCode();
+      document.getElementById("code").textContent = currentCode;
+
+      // Glitchにコードを保存
+      await fetch("https://blue-quartz-carrot.glitch.me/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: currentCode })
+      });
+    };
+
+    document.getElementById("verifyBtn").onclick = async () => {
+      if (!currentCode) return alert("コードを先に発行してください");
+
+      const res = await fetch(`https://blue-quartz-carrot.glitch.me/verify/${currentCode}`);
+      const data = await res.json();
+
+      if (data.verified) {
+        document.getElementById("result").textContent = "✅ 認証成功！このコードは使用されました。";
+        // → 次に Scratch アカウント名取得処理などを追加可能
+      } else {
+        document.getElementById("result").textContent = "❌ 認証に失敗しました。まだ入力されていない可能性があります。";
+      }
+    };
+  </script>
+</body>
+</html>
