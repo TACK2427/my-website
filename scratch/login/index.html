@@ -9,6 +9,8 @@
     .code-box { font-size: 2em; margin: 20px; }
     button { font-size: 1.2em; padding: 10px 20px; }
     #result { margin-top: 20px; font-weight: bold; }
+    .account-info { margin-top: 20px; }
+    .account-info img { max-width: 50px; border-radius: 50%; }
   </style>
 </head>
 <body>
@@ -21,10 +23,13 @@
   <button id="verifyBtn">コードを確認</button>
 
   <div id="result"></div>
+  <div class="account-info" id="accountInfo"></div>
 
   <script>
     let currentCode = "";
+    let userLoggedIn = false;
 
+    // コード発行機能
     function generateCode(length = 6) {
       const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
       let result = "";
@@ -34,7 +39,13 @@
       return result;
     }
 
+    // コード発行ボタンの処理
     document.getElementById("generateBtn").onclick = async () => {
+      if (userLoggedIn) {
+        window.location.href = "https://www.tack2427.f5.si/scratch";
+        return;
+      }
+
       currentCode = generateCode();
       document.getElementById("code").textContent = currentCode;
 
@@ -46,17 +57,56 @@
       });
     };
 
+    // コード確認ボタンの処理
     document.getElementById("verifyBtn").onclick = async () => {
+      if (userLoggedIn) {
+        window.location.href = "https://www.tack2427.f5.si/scratch";
+        return;
+      }
+
       if (!currentCode) return alert("コードを先に発行してください");
 
       const res = await fetch(`https://blue-quartz-carrot.glitch.me/verify/${currentCode}`);
       const data = await res.json();
 
       if (data.verified) {
-        document.getElementById("result").textContent = "✅ 認証成功！このコードは使用されました。";
-        // → 次に Scratch アカウント名取得処理などを追加可能
+        // 認証成功後にアカウント情報を表示
+        const confirmation = confirm("✅ コードが正しいです。このアカウントでログインしますか？");
+
+        if (confirmation) {
+          userLoggedIn = true;
+          document.getElementById("result").textContent = "ログイン完了！";
+
+          // アカウント情報（アイコン、ユーザー名）を表示
+          const accountInfoHtml = `
+            <img src="${data.icon}" alt="アイコン">
+            <p>ユーザー名: ${data.username}</p>
+            <button id="homeBtn">ホームに移動</button>
+          `;
+          document.getElementById("accountInfo").innerHTML = accountInfoHtml;
+
+          // ホームボタンのリダイレクト
+          document.getElementById("homeBtn").onclick = () => {
+            window.location.href = "https://www.tack2427.f5.si/scratch";
+          };
+
+          // ログイン後にホームページへリダイレクト
+          setTimeout(() => {
+            window.location.href = "https://www.tack2427.f5.si/scratch";
+          }, 1000);  // 1秒後にリダイレクト
+        } else {
+          document.getElementById("result").textContent = "ログインをやり直してください。";
+        }
       } else {
         document.getElementById("result").textContent = "❌ 認証に失敗しました。まだ入力されていない可能性があります。";
+      }
+    };
+
+    // ログイン済み状態でアクセスした場合にホームにリダイレクト
+    window.onload = async () => {
+      // Cookieまたはセッション等でログイン状態を確認する
+      if (userLoggedIn) {
+        window.location.href = "https://www.tack2427.f5.si/scratch";
       }
     };
   </script>
