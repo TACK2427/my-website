@@ -1,53 +1,111 @@
-<!-- GitHub Pages用HTML -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>ログインページ</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ログイン - Scratch認証</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; margin-top: 50px; }
+    .code-box { font-size: 2em; margin: 20px; display: inline-block; border: 1px solid #ccc; padding: 10px; user-select: all; }
+    button { font-size: 1.2em; padding: 10px 20px; margin: 5px; }
+    #result { margin-top: 20px; font-weight: bold; }
+    .user-info { margin-top: 20px; }
+    img { border-radius: 50%; width: 80px; height: 80px; }
+  </style>
 </head>
 <body>
-  <h1>ログインページ</h1>
-  
-  <!-- 認証コード発行ボタン -->
-  <button id="generate_code">認証コード発行</button>
-  
-  <p id="code_display"></p>
+  <h1>Scratchログイン</h1>
+  <p>以下のコードを Scratch のプロジェクトに入力してください。</p>
 
-  <!-- ユーザーコード入力と送信 -->
-  <input type="text" id="user_code" placeholder="認証コードを入力">
-  <button id="submit_code">コードを送信</button>
-  
-  <p id="result"></p>
+  <div class="code-box" id="code">---</div>
+  <button id="copyBtn">コピー</button>
+  <br>
+  <button id="generateBtn">コードを発行</button>
+  <button id="openProject">入力しに行く</button>
+  <button id="verifyBtn">コードを確認</button>
+
+  <div id="result"></div>
+  <div class="user-info" id="userInfo" style="display:none">
+    <img id="userIcon" src="" alt="User Icon" /><br>
+    <span id="userName"></span><br>
+    このアカウントでログインしますか？<br>
+    <button id="confirmYes">はい</button>
+    <button id="confirmNo">いいえ</button>
+  </div>
 
   <script>
-    // 認証コード生成処理
-    document.getElementById("generate_code").addEventListener("click", () => {
-      const code = Math.random().toString(36).substring(2, 8).toUpperCase(); // ランダムなコード生成
-      document.getElementById("code_display").innerText = `認証コード: ${code}`;
-      localStorage.setItem("auth_code", code); // GitHub Pages上でコードを保存（次に確認用）
-    });
+    let currentCode = "";
+    let lastGenerated = 0;
 
-    // コード送信処理
-    document.getElementById("submit_code").addEventListener("click", async () => {
-      const userCode = document.getElementById("user_code").value;
-      const storedCode = localStorage.getItem("auth_code"); // 保存されたコードを取得
-
-      if (userCode === storedCode) {
-        // Glitchサーバーに認証コードを送信
-        const response = await fetch(`https://your-glitch-app.glitch.me/verify/${userCode}`);
-        const data = await response.json();
-
-        if (data.verified) {
-          document.getElementById("result").innerText = "ログイン成功！";
-          // ユーザー名とアイコンを表示（仮の例）
-          document.getElementById("result").innerHTML += `<br>ユーザー名: ユーザー名例<br><img src="https://example.com/avatar.jpg" alt="アイコン">`;
-        } else {
-          document.getElementById("result").innerText = "認証失敗";
-        }
-      } else {
-        document.getElementById("result").innerText = "コードが間違っています";
+    function generateCode(length = 6) {
+      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_+-=[]{}|;:,.<>?";
+      let result = "";
+      for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
       }
-    });
+      return result;
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text);
+    }
+
+    document.getElementById("copyBtn").onclick = () => {
+      if (currentCode) copyToClipboard(currentCode);
+    };
+
+    document.getElementById("generateBtn").onclick = async () => {
+      const now = Date.now();
+      if (now - lastGenerated < 5000) {
+        alert("コード発行は5秒に1回だけ可能です。");
+        return;
+      }
+
+      currentCode = generateCode();
+      document.getElementById("code").textContent = currentCode;
+      lastGenerated = now;
+
+      await fetch("https://blue-quartz-carrot.glitch.me/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: currentCode })
+      });
+    };
+
+    document.getElementById("verifyBtn").onclick = async () => {
+      if (!currentCode) return alert("コードを先に発行してください");
+
+      const res = await fetch(`https://blue-quartz-carrot.glitch.me/verify/${currentCode}`);
+      const data = await res.json();
+
+      if (data.verified) {
+        document.getElementById("result").textContent = "✅ 認証成功！Scratchアカウントを取得中...";
+        document.getElementById("userInfo").style.display = "block";
+        document.getElementById("userName").textContent = data.username;
+        document.getElementById("userIcon").src = `https://uploads.scratch.mit.edu/users/avatars/${data.username}.png`;
+      } else {
+        document.getElementById("result").textContent = "❌ 認証に失敗しました。まだ入力されていない可能性があります。";
+      }
+    };
+
+    document.getElementById("confirmYes").onclick = () => {
+      localStorage.setItem("scratch_logged_in", "true");
+      window.location.href = "https://www.tack2427.f5.si/scratch";
+    };
+
+    document.getElementById("confirmNo").onclick = () => {
+      location.reload();
+    };
+
+    document.getElementById("openProject").onclick = () => {
+      window.open("https://scratch.mit.edu/projects/1172972164", "_blank");
+    };
+
+    window.onload = () => {
+      if (localStorage.getItem("scratch_logged_in") === "true") {
+        window.location.href = "https://www.tack2427.f5.si/scratch";
+      }
+    };
   </script>
 </body>
 </html>
