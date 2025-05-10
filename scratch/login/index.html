@@ -1,114 +1,53 @@
+<!-- GitHub Pages用HTML -->
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ログイン - Scratch認証</title>
-  <style>
-    body { font-family: sans-serif; text-align: center; margin-top: 50px; }
-    .code-box { font-size: 2em; margin: 20px; }
-    button { font-size: 1.2em; padding: 10px 20px; }
-    #result { margin-top: 20px; font-weight: bold; }
-    .account-info { margin-top: 20px; }
-    .account-info img { max-width: 50px; border-radius: 50%; }
-  </style>
+  <meta charset="UTF-8">
+  <title>ログインページ</title>
 </head>
 <body>
-  <h1>Scratchログイン</h1>
-  <p>以下のコードを Scratch のプロジェクトに入力してください。</p>
+  <h1>ログインページ</h1>
+  
+  <!-- 認証コード発行ボタン -->
+  <button id="generate_code">認証コード発行</button>
+  
+  <p id="code_display"></p>
 
-  <div class="code-box" id="code">---</div>
-  <button id="generateBtn">コードを発行</button>
-  <br><br>
-  <button id="verifyBtn">コードを確認</button>
-
-  <div id="result"></div>
-  <div class="account-info" id="accountInfo"></div>
+  <!-- ユーザーコード入力と送信 -->
+  <input type="text" id="user_code" placeholder="認証コードを入力">
+  <button id="submit_code">コードを送信</button>
+  
+  <p id="result"></p>
 
   <script>
-    let currentCode = "";
-    let userLoggedIn = false;
+    // 認証コード生成処理
+    document.getElementById("generate_code").addEventListener("click", () => {
+      const code = Math.random().toString(36).substring(2, 8).toUpperCase(); // ランダムなコード生成
+      document.getElementById("code_display").innerText = `認証コード: ${code}`;
+      localStorage.setItem("auth_code", code); // GitHub Pages上でコードを保存（次に確認用）
+    });
 
-    // コード発行機能
-    function generateCode(length = 6) {
-      const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-      let result = "";
-      for (let i = 0; i < length; i++) {
-        result += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      return result;
-    }
+    // コード送信処理
+    document.getElementById("submit_code").addEventListener("click", async () => {
+      const userCode = document.getElementById("user_code").value;
+      const storedCode = localStorage.getItem("auth_code"); // 保存されたコードを取得
 
-    // コード発行ボタンの処理
-    document.getElementById("generateBtn").onclick = async () => {
-      if (userLoggedIn) {
-        window.location.href = "https://www.tack2427.f5.si/scratch";
-        return;
-      }
+      if (userCode === storedCode) {
+        // Glitchサーバーに認証コードを送信
+        const response = await fetch(`https://your-glitch-app.glitch.me/verify/${userCode}`);
+        const data = await response.json();
 
-      currentCode = generateCode();
-      document.getElementById("code").textContent = currentCode;
-
-      // Glitchにコードを保存
-      await fetch("https://blue-quartz-carrot.glitch.me/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: currentCode })
-      });
-    };
-
-    // コード確認ボタンの処理
-    document.getElementById("verifyBtn").onclick = async () => {
-      if (userLoggedIn) {
-        window.location.href = "https://www.tack2427.f5.si/scratch";
-        return;
-      }
-
-      if (!currentCode) return alert("コードを先に発行してください");
-
-      const res = await fetch(`https://blue-quartz-carrot.glitch.me/verify/${currentCode}`);
-      const data = await res.json();
-
-      if (data.verified) {
-        // 認証成功後にアカウント情報を表示
-        const confirmation = confirm("✅ コードが正しいです。このアカウントでログインしますか？");
-
-        if (confirmation) {
-          userLoggedIn = true;
-          document.getElementById("result").textContent = "ログイン完了！";
-
-          // アカウント情報（アイコン、ユーザー名）を表示
-          const accountInfoHtml = `
-            <img src="${data.icon}" alt="アイコン">
-            <p>ユーザー名: ${data.username}</p>
-            <button id="homeBtn">ホームに移動</button>
-          `;
-          document.getElementById("accountInfo").innerHTML = accountInfoHtml;
-
-          // ホームボタンのリダイレクト
-          document.getElementById("homeBtn").onclick = () => {
-            window.location.href = "https://www.tack2427.f5.si/scratch";
-          };
-
-          // ログイン後にホームページへリダイレクト
-          setTimeout(() => {
-            window.location.href = "https://www.tack2427.f5.si/scratch";
-          }, 1000);  // 1秒後にリダイレクト
+        if (data.verified) {
+          document.getElementById("result").innerText = "ログイン成功！";
+          // ユーザー名とアイコンを表示（仮の例）
+          document.getElementById("result").innerHTML += `<br>ユーザー名: ユーザー名例<br><img src="https://example.com/avatar.jpg" alt="アイコン">`;
         } else {
-          document.getElementById("result").textContent = "ログインをやり直してください。";
+          document.getElementById("result").innerText = "認証失敗";
         }
       } else {
-        document.getElementById("result").textContent = "❌ 認証に失敗しました。まだ入力されていない可能性があります。";
+        document.getElementById("result").innerText = "コードが間違っています";
       }
-    };
-
-    // ログイン済み状態でアクセスした場合にホームにリダイレクト
-    window.onload = async () => {
-      // Cookieまたはセッション等でログイン状態を確認する
-      if (userLoggedIn) {
-        window.location.href = "https://www.tack2427.f5.si/scratch";
-      }
-    };
+    });
   </script>
 </body>
 </html>
