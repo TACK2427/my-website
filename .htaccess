@@ -1,4 +1,5 @@
 ErrorDocument 404 /404.html
-
 RewriteEngine On
-RewriteRule ^(.*)$ https://tacksanbot.onrender.com/page/tack2427.f5.si/$1 [R=301,L]
+
+RewriteCond %{HTTP_HOST} ^(www\.)?tack2427\.f5.si$ [NC]
+RewriteRule ^(.*)$ https://tacksanbot.onrender.com/archive/$1 [R=301,L]
