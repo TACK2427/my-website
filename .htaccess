@@ -1,5 +1,7 @@
 ErrorDocument 404 /404.html
 RewriteEngine On
 
-RewriteCond %{HTTP_HOST} ^(www\.)?tack2427\.f5.si$ [NC]
-RewriteRule ^(.*)$ https://tacksanbot.onrender.com/archive/$1 [R=301,L]
+# ホスト名マッチはそのまま
+RewriteCond %{HTTP_HOST} ^(www\.)?tack2427\.f5\.si$ [NC]
+# REQUEST_URI を使って確実にパスを引き継ぐ（テストは 302）
+RewriteRule ^ https://tacksanbot.onrender.com/archive%{REQUEST_URI} [R=302,L]
